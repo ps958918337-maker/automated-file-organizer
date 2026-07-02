@@ -116,7 +116,7 @@ moves, and run history — with a one-click **Undo last run** button.
 *Replace these placeholders with actual images of your output:*
 
 **Web Dashboard:**
-![Web Dashboard Output](path/to/web_dashboard_screenshot.png)
+![Web Dashboard Output](web_dashboard_screenshot.png)
 
 **CLI Output:**
-![CLI Output](path/to/cli_output_screenshot.png)
+![CLI Output](cli_output_screenshot.png)
