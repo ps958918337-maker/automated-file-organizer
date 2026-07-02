@@ -1,8 +1,8 @@
 # Automated File Organizer
 
 **Intern ID:** `CITS4872`  
-**Full Name:** `[YOUR_FULL_NAME]`  
-**No. of Weeks:** `[NUMBER_OF_WEEKS]`  
+**Full Name:** `Priyanshu Singh`  
+**No. of Weeks:** `6 weeks`  
 **Project Name:** Automated File Organizer  
 **Project Scope:** A Python-based utility that automatically sorts files in a given directory into categorized folders (Images, Documents, Videos, etc.) based on their extensions. It features both a command-line interface and a locally hosted web dashboard. Key functionalities include duplicate detection, safe renaming, dry-run previews, and full undo capabilities to ensure data safety.
 
