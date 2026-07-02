@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>File Organizer — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --ink: #1e293b;
+    --ink-soft: #64748b;
+    --paper: rgba(255, 255, 255, 0.6);
+    --paper-raised: rgba(255, 255, 255, 0.9);
+    --slate: #334155;
+    --rule: rgba(0, 0, 0, 0.1);
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --accent-soft: rgba(99, 102, 241, 0.1);
+    --ok: #10b981;
+    --ok-bg: rgba(16, 185, 129, 0.1);
+    --warn: #f59e0b;
+    --warn-bg: rgba(245, 158, 11, 0.1);
+    --err: #ef4444;
+    --err-bg: rgba(239, 68, 68, 0.1);
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    --sans: "Inter", system-ui, sans-serif;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    background-attachment: fixed;
+  }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+
+  .brand-mark {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #1e293b, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tagline {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.6;
+    max-width: 280px;
+    font-weight: 500;
+  }
+
+  /* ---------- Panel ---------- */
+  .panel {
+    background: var(--paper-raised);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .panel h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .panel .sub {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .field-row {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    min-width: 240px;
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 14px 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.8);
+    color: var(--ink);
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft), inset 0 2px 4px rgba(0,0,0,0.02);
+    background: #fff;
+  }
+
+  .options {
+    display: flex;
+    gap: 24px;
+    margin: 20px 0 28px;
+    flex-wrap: wrap;
+  }
+
+  label.check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  label.check:hover {
+    color: var(--ink);
+  }
+
+  label.check input { 
+    accent-color: var(--accent); 
+    width: 18px; 
+    height: 18px; 
+    cursor: pointer;
+  }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  button {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  button:active { transform: scale(0.96); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .btn-primary { 
+    background: var(--accent); 
+    color: #fff; 
+  }
+  .btn-primary:hover:not(:disabled) { 
+    background: var(--accent-hover); 
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-danger { 
+    background: rgba(239, 68, 68, 0.1); 
+    color: var(--err); 
+  }
+  .btn-danger:hover:not(:disabled) { 
+    background: var(--err);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  }
+
+  /* ---------- Sorting visual (signature element) ---------- */
+  .sort-deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .slot {
+    border: 2px dashed rgba(0,0,0,0.1);
+    border-radius: var(--radius-md);
+    padding: 16px 12px;
+    text-align: center;
+    position: relative;
+    background: rgba(255,255,255,0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slot .count {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    transition: color 0.3s ease;
+  }
+
+  .slot .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+
+  .slot.filled {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  }
+  .slot.filled .count,
+  .slot.filled .label { color: var(--accent); }
+
+  /* ---------- Result / log output ---------- */
+  .result {
+    margin-top: 32px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 24px;
+    animation: fadeIn 0.4s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-banner {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .result-banner.ok { background: var(--ok-bg); color: var(--ok); }
+  .result-banner.warn { background: var(--warn-bg); color: var(--warn); }
+  .result-banner.err { background: var(--err-bg); color: var(--err); }
+
+  .stat-line {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    max-width: 400px;
+    border-bottom: 1px dashed rgba(0,0,0,0.05);
+    padding-bottom: 4px;
+  }
+
+  .stat-line b { color: var(--ink); font-weight: 600; font-family: var(--mono); }
+
+  details {
+    margin-top: 24px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.5);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  summary {
+    cursor: pointer;
+    color: var(--ink);
+    font-weight: 600;
+    user-select: none;
+    outline: none;
+  }
+  summary::marker { color: var(--accent); }
+  
+  .action-list {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    max-height: 280px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .action-list::-webkit-scrollbar { width: 8px; }
+  .action-list::-webkit-scrollbar-track { background: transparent; }
+  .action-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+  
+  .action-list li {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .action-list li:hover { background: rgba(0,0,0,0.01); color: var(--ink); }
+  .action-list li:last-child { border-bottom: none; }
+  .action-list .cat-tag {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 11px;
+    padding: 4px 8px;
+    background: var(--accent-soft);
+    border-radius: var(--radius-full);
+  }
+
+  /* ---------- History table ---------- */
+  .table-wrap {
+    overflow-x: auto;
+    background: rgba(255,255,255,0.5);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--ink-soft);
+    padding: 16px;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    background: rgba(0,0,0,0.02);
+  }
+  td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fff; }
+  
+  .pill {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: inline-block;
+  }
+  .pill.live { background: var(--ok-bg); color: var(--ok); }
+  .pill.dry { background: var(--warn-bg); color: var(--warn); }
+
+  .empty-state {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255,255,255,0.4);
+    border-radius: var(--radius-md);
+    border: 2px dashed rgba(0,0,0,0.05);
+  }
+
+  footer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 50px;
+    font-weight: 500;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div>
+      <p class="brand-mark">/usr/local/organizer</p>
+      <h1>File Organizer</h1>
+    </div>
+    <p class="tagline">Sorts loose files into category folders.<br>Logs every move. Nothing is deleted.</p>
+  </header>
+
+  <section class="panel">
+    <h2>Run organizer</h2>
+    <p class="sub">Point this at any directory on the machine running the server.</p>
+
+    <div class="field-row">
+      <input type="text" id="dirInput" placeholder="/home/user/Downloads" />
+    </div>
+
+    <div class="options">
+      <label class="check">
+        <input type="checkbox" id="dryRun" checked />
+        Dry run (preview only, no files moved)
+      </label>
+      <label class="check">
+        <input type="checkbox" id="dedupe" checked />
+        Skip exact duplicates
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" id="runBtn">Run organizer</button>
+      <button class="btn-danger" id="undoBtn">Undo last run</button>
+    </div>
+
+    <div class="sort-deck" id="sortDeck"></div>
+
+    <div class="result" id="result" style="display:none;"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run history</h2>
+    <p class="sub">Most recent runs, newest first.</p>
+    <div id="historyWrap"><p class="empty-state">No runs yet — run the organizer above to see history.</p></div>
+  </section>
+
+  <footer>
+    Automated File Organizer — Python standard library only — no external dependencies<br>
+    <span style="font-size: 11px; opacity: 0.8; display: block; margin-top: 6px;">Developed by - Priyanshu Singh</span>
+  </footer>
+</div>
+
+<script>
+  const CATEGORIES = ["Images","Documents","Spreadsheets","Presentations","Videos","Audio","Archives","Code","Executables","Fonts","Others"];
+
+  const sortDeck = document.getElementById("sortDeck");
+  const resultEl = document.getElementById("result");
+  const runBtn = document.getElementById("runBtn");
+  const undoBtn = document.getElementById("undoBtn");
+  const dirInput = document.getElementById("dirInput");
+  const dryRunCheck = document.getElementById("dryRun");
+  const dedupeCheck = document.getElementById("dedupe");
+  const historyWrap = document.getElementById("historyWrap");
+
+  function renderDeck(summary) {
+    sortDeck.innerHTML = "";
+    CATEGORIES.forEach(cat => {
+      const count = (summary && summary[cat]) || 0;
+      const slot = document.createElement("div");
+      slot.className = "slot" + (count > 0 ? " filled" : "");
+      slot.innerHTML = `<div class="count">${count}</div><div class="label">${cat}</div>`;
+      sortDeck.appendChild(slot);
+    });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderResult(data) {
+    resultEl.style.display = "block";
+
+    if (!data.ok) {
+      resultEl.innerHTML = `<span class="result-banner err">Error: ${escapeHtml(data.error)}</span>`;
+      return;
+    }
+
+    const r = data.result;
+    const bannerClass = r.dry_run ? "warn" : "ok";
+    const bannerText = r.dry_run
+      ? `Dry run complete — ${r.total_moved} file(s) WOULD be moved`
+      : `Done — ${r.total_moved} file(s) moved`;
+
+    let html = `<span class="result-banner ${bannerClass}">${bannerText}</span>`;
+    html += `<div class="stat-line">Target: <b>${escapeHtml(r.target_dir)}</b></div>`;
+    html += `<div class="stat-line">Scanned: <b>${r.total_files_scanned}</b> file(s)</div>`;
+
+    if (r.duplicates_skipped && r.duplicates_skipped.length) {
+      html += `<div class="stat-line">Duplicates skipped: <b>${r.duplicates_skipped.length}</b></div>`;
+    }
+    if (r.errors && r.errors.length) {
+      html += `<div class="stat-line" style="color:var(--err);">Errors: <b>${r.errors.length}</b></div>`;
+    }
+
+    if (r.actions && r.actions.length) {
+      html += `<details><summary>View ${r.actions.length} action(s)</summary><ul class="action-list">`;
+      r.actions.slice(0, 200).forEach(a => {
+        const name = a.source.split("/").pop();
+        html += `<li><span class="cat-tag">${escapeHtml(a.category)}</span> ${escapeHtml(name)}</li>`;
+      });
+      html += `</ul></details>`;
+    }
+
+    resultEl.innerHTML = html;
+    renderDeck(r.summary_by_category);
+  }
+
+  async function runOrganizer() {
+    const directory = dirInput.value.trim();
+    if (!directory) {
+      dirInput.focus();
+      return;
+    }
+    runBtn.disabled = true;
+    runBtn.textContent = "Running…";
+
+    try {
+      const res = await fetch("/api/organize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          directory,
+          dry_run: dryRunCheck.checked,
+          detect_duplicates: dedupeCheck.checked,
+        }),
+      });
+      const data = await res.json();
+      renderResult(data);
+      loadHistory();
+    } catch (err) {
+      renderResult({ ok: false, error: String(err) });
+    } finally {
+      runBtn.disabled = false;
+      runBtn.textContent = "Run organizer";
+    }
+  }
+
+  async function undoLast() {
+    undoBtn.disabled = true;
+    undoBtn.textContent = "Undoing…";
+    try {
+      const res = await fetch("/api/undo", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `<span class="result-banner ok">Restored ${data.result.restored_count} file(s)` +
+          (data.result.failed_count ? `, ${data.result.failed_count} failed` : "") + `</span>`;
+        renderDeck({});
+      } else {
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `<span class="result-banner err">Error: ${escapeHtml(data.error)}</span>`;
+      }
+      loadHistory();
+    } catch (err) {
+      resultEl.style.display = "block";
+      resultEl.innerHTML = `<span class="result-banner err">Error: ${escapeHtml(String(err))}</span>`;
+    } finally {
+      undoBtn.disabled = false;
+      undoBtn.textContent = "Undo last run";
+    }
+  }
+
+  async function loadHistory() {
+    try {
+      const res = await fetch("/api/history");
+      const data = await res.json();
+      if (!data.ok || !data.runs.length) {
+        historyWrap.innerHTML = `<p class="empty-state">No runs yet — run the organizer above to see history.</p>`;
+        return;
+      }
+      let html = `<div class="table-wrap"><table><thead><tr><th>Time</th><th>Directory</th><th>Moved</th><th>Type</th></tr></thead><tbody>`;
+      data.runs.forEach(run => {
+        const pillClass = run.dry_run ? "dry" : "live";
+        const pillText = run.dry_run ? "Dry run" : "Live";
+        html += `<tr>
+          <td>${escapeHtml((run.timestamp || "").replace("T", " ").slice(0, 19))}</td>
+          <td>${escapeHtml(run.target_dir)}</td>
+          <td>${run.total_moved}</td>
+          <td><span class="pill ${pillClass}">${pillText}</span></td>
+        </tr>`;
+      });
+      html += `</tbody></table></div>`;
+      historyWrap.innerHTML = html;
+    } catch (err) {
+      historyWrap.innerHTML = `<p class="empty-state">Couldn't load history.</p>`;
+    }
+  }
+
+  runBtn.addEventListener("click", runOrganizer);
+  undoBtn.addEventListener("click", undoLast);
+  dirInput.addEventListener("keydown", e => { if (e.key === "Enter") runOrganizer(); });
+
+  renderDeck({});
+  loadHistory();
+</script>
+
+</body>
+</html>
