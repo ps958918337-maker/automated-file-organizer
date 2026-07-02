@@ -1,6 +1,6 @@
 # Automated File Organizer
 
-**Intern ID:** `[YOUR_INTERN_ID]`  
+**Intern ID:** `CITS4872`  
 **Full Name:** `[YOUR_FULL_NAME]`  
 **No. of Weeks:** `[NUMBER_OF_WEEKS]`  
 **Project Name:** Automated File Organizer  
