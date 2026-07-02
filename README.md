@@ -1,5 +1,13 @@
 # Automated File Organizer
 
+**Intern ID:** `[YOUR_INTERN_ID]`  
+**Full Name:** `[YOUR_FULL_NAME]`  
+**No. of Weeks:** `[NUMBER_OF_WEEKS]`  
+**Project Name:** Automated File Organizer  
+**Project Scope:** A Python-based utility that automatically sorts files in a given directory into categorized folders (Images, Documents, Videos, etc.) based on their extensions. It features both a command-line interface and a locally hosted web dashboard. Key functionalities include duplicate detection, safe renaming, dry-run previews, and full undo capabilities to ensure data safety.
+
+---
+
 A Python tool that automatically sorts messy directories (like Downloads)
 into category folders — Images, Documents, Videos, Code, etc. — based on
 file extension. Includes a CLI and a web dashboard, both built with the
@@ -102,3 +110,13 @@ moves, and run history — with a one-click **Undo last run** button.
   that were already sorted in a previous run, or touch folders the user
   didn't intend to flatten. Scanning only the top level keeps the tool's
   behavior predictable and non-destructive by default.
+
+## Screenshots and Output
+
+*Replace these placeholders with actual images of your output:*
+
+**Web Dashboard:**
+![Web Dashboard Output](path/to/web_dashboard_screenshot.png)
+
+**CLI Output:**
+![CLI Output](path/to/cli_output_screenshot.png)
